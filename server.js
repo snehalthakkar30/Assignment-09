@@ -14,6 +14,8 @@ const pool = mariadb.createPool({
     database: 'sample',
     connectionLimit: 100
 });
+const url = "https://s1zg1hvmnf.execute-api.us-east-2.amazonaws.com/prod/say?keyword=";
+
 
 const options = {
     swaggerDefinition: {
@@ -39,6 +41,22 @@ app.get('/', (req, res) => {
     res.send('Hello! Please extend this with /agents or /company or /customer')
 
   })
+
+  app.get('/say',(req, res) => {
+    axios.get(url + req.query.keyword)
+    .then(function (response) {
+      // If Successful
+      res.end(JSON.stringify(response.data));
+    })
+    .catch(function (error) {
+      // Handle the  errors
+      console.log(error);
+    })
+    .then(function () {
+      // Execute anyways
+    });
+  });
+
   async function main() {
     let conn;
 
